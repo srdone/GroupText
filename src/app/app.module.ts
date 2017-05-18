@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
     HttpModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
