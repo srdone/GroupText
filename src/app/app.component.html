@@ -8,7 +8,11 @@
 <button (click)="logout()">Logout</button>
 
 <ul>
-  <li class="text" *ngFor="let item of items | async">
+  <li class="text" *ngFor="let item of phoneNumbers | async">
     {{item.$value}}
   </li>
 </ul>
+
+<input type="text" [(ngModel)]="newPhone"/>
+
+<button (click)="addPhoneNumber(newPhone)">Add</button>

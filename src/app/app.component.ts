@@ -11,8 +11,9 @@ import * as firebase from 'firebase/app';
 })
 export class AppComponent implements OnInit {
   title = 'app works!';
-  items: FirebaseListObservable<any[]>;
+  phoneNumbers: FirebaseListObservable<any[]>;
   user: Observable<firebase.User>;
+  newPhone: string;
 
   constructor(
     public db: AngularFireDatabase,
@@ -20,7 +21,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.items = this.db.list('/items');
+    this.phoneNumbers = this.db.list('/phoneNumbers');
     this.user = this.afAuth.authState;
   }
 
@@ -31,4 +32,9 @@ export class AppComponent implements OnInit {
   logout() {
     this.afAuth.auth.signOut();
   }
+
+  addPhoneNumber(phoneNumber: string) {
+    this.phoneNumbers.push(phoneNumber);
+  }
+
 }
