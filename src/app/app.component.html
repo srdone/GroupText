@@ -7,12 +7,28 @@
 <button (click)="login()">Login</button>
 <button (click)="logout()">Logout</button>
 
+<div>Phone Numbers</div>
 <ul>
   <li class="text" *ngFor="let item of phoneNumbers | async">
     {{item.$value}}
   </li>
 </ul>
 
-<input type="text" [(ngModel)]="newPhone"/>
+<div>Pending Messages</div>
+<ul>
+  <li *ngFor="let msg of pendingMessages | async">
+    {{msg.$value}}
+  </li>
+</ul>
 
+<label for="newPhoneNumber">Add Phone</label>
+<input id="newPhoneNumber" type="text" [(ngModel)]="newPhone"/>
 <button (click)="addPhoneNumber(newPhone)">Add</button>
+
+<br/>
+
+<label for="newPendingMessage">Send Message</label>
+<input id="newPendingMessage" type="text" [(ngModel)]="newPendingMessage"/>
+<button (click)="addPendingMessage(newPendingMessage)">Send</button>
+
+

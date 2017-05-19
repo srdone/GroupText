@@ -11,9 +11,11 @@ import * as firebase from 'firebase/app';
 })
 export class AppComponent implements OnInit {
   title = 'app works!';
-  phoneNumbers: FirebaseListObservable<any[]>;
+  phoneNumbers: FirebaseListObservable<string[]>;
+  pendingMessages: FirebaseListObservable<string[]>;
   user: Observable<firebase.User>;
   newPhone: string;
+  newPendingMessage: string;
 
   constructor(
     public db: AngularFireDatabase,
@@ -22,6 +24,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.phoneNumbers = this.db.list('/phoneNumbers');
+    this.pendingMessages = this.db.list('/messages/pending');
     this.user = this.afAuth.authState;
   }
 
@@ -35,6 +38,10 @@ export class AppComponent implements OnInit {
 
   addPhoneNumber(phoneNumber: string) {
     this.phoneNumbers.push(phoneNumber);
+  }
+
+  addPendingMessage(message: string) {
+    this.pendingMessages.push(message);
   }
 
 }
