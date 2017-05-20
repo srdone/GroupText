@@ -7,7 +7,7 @@ exports.sendMessage = functions.database.ref('/messages/{pushId}').onWrite(event
   const message = event.data.val();
   console.log(message);
   return Promise.all(
-    message.recipients.map(r => admin.database().ref('/recipients/' + r.key).once('value'))
+    message.recipients.map(r => admin.database().ref('/recipients/' + r.key).once('value').then(s => s.val()))
   ).then(function (recipients) {
     console.log(recipients);
     const updatedMsgRecipients = message.recipients.map(r => Object.assign(r, {isSent: true}));
