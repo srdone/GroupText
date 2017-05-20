@@ -14,10 +14,11 @@
   </li>
 </ul>
 
-<div>Pending Messages</div>
+<div>Messages</div>
 <ul>
   <li *ngFor="let msg of pendingMessages | async">
-    {{msg.$value}}
+    {{msg.message}}
+    {{msg.isSent ? 'Sent': 'Pending'}}
   </li>
 </ul>
 

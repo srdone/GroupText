@@ -4,6 +4,11 @@ import { AngularFireAuth } from "angularfire2/auth";
 import { Observable } from "rxjs/Observable";
 import * as firebase from 'firebase/app';
 
+interface Message {
+  message: string,
+  isSent: boolean
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,7 +17,7 @@ import * as firebase from 'firebase/app';
 export class AppComponent implements OnInit {
   title = 'app works!';
   phoneNumbers: FirebaseListObservable<string[]>;
-  pendingMessages: FirebaseListObservable<string[]>;
+  pendingMessages: FirebaseListObservable<Message[]>;
   user: Observable<firebase.User>;
   newPhone: string;
   newPendingMessage: string;
@@ -24,7 +29,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.phoneNumbers = this.db.list('/phoneNumbers');
-    this.pendingMessages = this.db.list('/messages/pending');
+    this.pendingMessages = this.db.list('/messages');
     this.user = this.afAuth.authState;
   }
 
@@ -41,7 +46,10 @@ export class AppComponent implements OnInit {
   }
 
   addPendingMessage(message: string) {
-    this.pendingMessages.push(message);
+    this.pendingMessages.push({
+      message,
+      isSent: false
+    });
   }
 
 }
