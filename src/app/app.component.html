@@ -10,15 +10,16 @@
 <div>Recipients</div>
 <ul>
   <li class="text" *ngFor="let r of recipients | async">
-    {{r.name}} - {{r.phoneNumber}}
+    {{r.name}} - {{r.phoneNumber}} - {{r.$key}}
   </li>
 </ul>
 
 <div>Messages</div>
 <ul>
   <li *ngFor="let msg of pendingMessages | async">
-    {{msg.message}}
-    {{msg.isSent ? 'Sent': 'Pending'}}
+    {{msg.message}} <br/>
+    {{msg.isSent ? 'Sent': 'Pending'}} <br/>
+    Recipients: <span *ngFor="let rKey of msg.recipients">{{rKey}}</span>
   </li>
 </ul>
 
