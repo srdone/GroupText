@@ -20,6 +20,13 @@ exports.sendMessage = functions.database.ref('/messages/{pushId}').onWrite(event
     .then(responses => recordResponses(message, responses, event));
 });
 
+exports.handleBandwidthSMSMessage = functions.https.onRequest((req, res) => {
+  console.log(req, res);
+  admin.database().ref('/recievedMessages').push({message: req.query}).then(snap => {
+    res.redirect(303, snap.ref);
+  })
+});
+
 function getRecipients(recipients) {
   return Promise.all(
     recipients.map(r => admin.database().ref('/recipients/' + r.key).once('value').then(s => s.val()))
