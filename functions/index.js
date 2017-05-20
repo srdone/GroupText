@@ -3,8 +3,17 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-exports.sendMessage = functions.database.ref('/messages/{pushId}/message').onWrite(event => {
-  const original = event.data.val();
-  console.log('Setting to sent', event.params.pushId, original);
-  return event.data.ref.parent.child('isSent').set(true);
+exports.sendMessage = functions.database.ref('/messages/{pushId}').onWrite(event => {
+  const message = event.data.val();
+  console.log(message);
+  return Promise.all(
+    message.recipients.map(r => admin.database().ref('/recipients/' + r.key).once('value'))
+  ).then(function (recipients) {
+    console.log(recipients);
+    const updatedMsgRecipients = message.recipients.map(r => Object.assign(r, {isSent: true}));
+    return Promise.all([
+      event.data.ref.child('isSent').set(true),
+      event.data.ref.child('recipients').set(updatedMsgRecipients)
+    ]);
+  })
 });

@@ -8,7 +8,7 @@ import { Subscription } from "rxjs/Subscription";
 interface Message {
   message: string,
   isSent: boolean,
-  recipients: string[]
+  recipients: {key: string, isSent: boolean}[]
 }
 
 interface Recipient {
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   recipients: FirebaseListObservable<Recipient[]>;
   pendingMessages: FirebaseListObservable<Message[]>;
   user: Observable<firebase.User>;
-  newRecipient: Recipient = {name: undefined, phoneNumber: undefined, $key: undefined};
+  newRecipient: Recipient | any = {};
   newPendingMessage: string;
   recipientKeys: string[];
   recipientSubscription: Subscription
@@ -64,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.pendingMessages.push({
       message,
       isSent: false,
-      recipients: this.recipientKeys
+      recipients: this.recipientKeys.map(key => ({key, isSent: false}))
     });
   }
 

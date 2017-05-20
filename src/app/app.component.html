@@ -19,7 +19,7 @@
   <li *ngFor="let msg of pendingMessages | async">
     {{msg.message}} <br/>
     {{msg.isSent ? 'Sent': 'Pending'}} <br/>
-    Recipients: <span *ngFor="let rKey of msg.recipients">{{rKey}}</span>
+    Recipients: <span *ngFor="let r of msg.recipients">Sent: {{r.isSent}}, Key: {{r.key}}</span>
   </li>
 </ul>
 
