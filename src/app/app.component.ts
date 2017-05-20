@@ -9,6 +9,11 @@ interface Message {
   isSent: boolean
 }
 
+interface Recipient {
+  phoneNumber: string,
+  name: string
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,10 +21,10 @@ interface Message {
 })
 export class AppComponent implements OnInit {
   title = 'app works!';
-  phoneNumbers: FirebaseListObservable<string[]>;
+  recipients: FirebaseListObservable<Recipient[]>;
   pendingMessages: FirebaseListObservable<Message[]>;
   user: Observable<firebase.User>;
-  newPhone: string;
+  newRecipient: Recipient = {name: undefined, phoneNumber: undefined};
   newPendingMessage: string;
 
   constructor(
@@ -28,7 +33,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.phoneNumbers = this.db.list('/phoneNumbers');
+    this.recipients = this.db.list('/recipients');
     this.pendingMessages = this.db.list('/messages');
     this.user = this.afAuth.authState;
   }
@@ -41,8 +46,8 @@ export class AppComponent implements OnInit {
     this.afAuth.auth.signOut();
   }
 
-  addPhoneNumber(phoneNumber: string) {
-    this.phoneNumbers.push(phoneNumber);
+  addPhoneNumber(newRecipient) {
+    this.recipients.push(newRecipient);
   }
 
   addPendingMessage(message: string) {

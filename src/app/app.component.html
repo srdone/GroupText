@@ -7,10 +7,10 @@
 <button (click)="login()">Login</button>
 <button (click)="logout()">Logout</button>
 
-<div>Phone Numbers</div>
+<div>Recipients</div>
 <ul>
-  <li class="text" *ngFor="let item of phoneNumbers | async">
-    {{item.$value}}
+  <li class="text" *ngFor="let r of recipients | async">
+    {{r.name}} - {{r.phoneNumber}}
   </li>
 </ul>
 
@@ -22,9 +22,11 @@
   </li>
 </ul>
 
-<label for="newPhoneNumber">Add Phone</label>
-<input id="newPhoneNumber" type="text" [(ngModel)]="newPhone"/>
-<button (click)="addPhoneNumber(newPhone)">Add</button>
+<label for="newRecipientPhone">Phone</label>
+<input id="newRecipientPhone" type="text" [(ngModel)]="newRecipient.phoneNumber"/>
+<label for="newRecipientName">Name</label>
+<input id="newRecipientName" type="text" [(ngModel)]="newRecipient.name" />
+<button (click)="addPhoneNumber(newRecipient)">Add</button>
 
 <br/>
 
